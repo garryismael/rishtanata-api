@@ -1,0 +1,10 @@
+fastapi[all]
+tortoise-orm[asyncpg]
+pytest
+aerich
+dependency_injector
+python-jose[cryptography]
+bcrypt==4.0.1
+passlib[bcrypt]
+aerich
+fastapi-mail

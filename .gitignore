@@ -1,0 +1,6 @@
+env
+.env*
+migrations
+instruction.txt
+pyproject.toml
+__pycache__
