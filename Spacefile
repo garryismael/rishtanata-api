@@ -1,8 +1,7 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 micros:
-  - name: rishtanata-api
+  - name: api-rishtanata
     src: ./
     engine: python3.9
     primary: true
-    run: uvicorn main:app
