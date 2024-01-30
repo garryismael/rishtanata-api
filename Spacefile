@@ -6,8 +6,3 @@ micros:
     engine: python3.9
     primary: true
     run: uvicorn main:app
-    presets:
-      env:
-        - name: ENV_LOCAL
-          description: Secret message only available to this Micro
-          default: "deta is cool"
