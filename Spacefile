@@ -8,6 +8,6 @@ micros:
     run: uvicorn main:app
     presets:
       env:
-        - name: .env.local
+        - name: ENV_LOCAL
           description: Secret message only available to this Micro
           default: "deta is cool"
