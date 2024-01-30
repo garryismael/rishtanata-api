@@ -29,6 +29,7 @@ class UserLoginUseCase:
             "full_name": account.user.full_name,
             "sub": account.user.email,
             "action": TokenAction.AUTH.value,
+            "photo": account.user.photo
         }
         access_token = self.access_token_factory.create_access_token(
             data=data, expires_delta=access_token_expires

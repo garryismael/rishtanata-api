@@ -7,7 +7,7 @@ class AppConfig(BaseSettings):
     db_url: str
     secret_key: str
     algorithm: str
-    access_token_expire_minutes: str
+    access_token_expire_minutes: int
     website_url: str
     mail_username: str
     mail_password: str

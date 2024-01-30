@@ -39,7 +39,7 @@ class Container(containers.DeclarativeContainer):
         UserTokenService, user_repository=user_repository
     )
     auth_service = providers.Factory(
-        AuthService, account_repository=account_repository, exception=exception
+        AuthService, account_repository=account_repository
     )
 
     access_token_factory = providers.Factory(AccessTokenFactory)
