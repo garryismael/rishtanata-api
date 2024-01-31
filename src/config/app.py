@@ -15,6 +15,7 @@ class AppConfig(BaseSettings):
     mail_port: int
     mail_server: str
     mail_from_name: str
+    deta_project_key: str
 
 
 APP_CONFIG = AppConfig()

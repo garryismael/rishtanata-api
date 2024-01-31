@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from src.config.app import APP_CONFIG
 from src.domain.token import TokenAction
 from src.domain.user.model import UserRegisterRequest, UserResponseDTO
@@ -30,11 +31,10 @@ class UserRegisterUseCase:
             "url": f"{APP_CONFIG.website_url}/email-verify/{jwt}",
             "emails": [user.email],
         }
-        print(jwt)
-        # await self.mail_service.send(
-        #     REGISTER_SUBJECT,
-        #     body,
-        #     "verification.html",
-        # )
+        await self.mail_service.send(
+            REGISTER_SUBJECT,
+            body,
+            "verification.html",
+        )
 
         return UserResponseDTO(**user.model_dump())
