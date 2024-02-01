@@ -3,8 +3,7 @@ from fastapi import APIRouter, Depends
 
 from src.config.container import Container
 from src.domain.user.model import AccountRegistration, UserRegisterRequest
-from src.domain.user.use_case import (AccountCreationUseCase,
-                                      UserRegisterUseCase)
+from src.domain.user.use_case import AccountCreationUseCase, UserRegisterUseCase
 
 user_router = APIRouter()
 
@@ -22,7 +21,11 @@ async def user_register(
 @inject
 async def activate_account(
     request: AccountRegistration,
-    use_case: AccountCreationUseCase = Depends(
-        Provide[Container.account_creation]),
+    use_case: AccountCreationUseCase = Depends(Provide[Container.account_creation]),
 ):
     return await use_case.execute(request)
+
+
+@user_router.put("/api/users/profile", tags=["user"])
+async def update_profile():
+    pass

@@ -3,6 +3,7 @@ from tortoise import fields, models
 
 from src.constant import DATE_FORMAT
 from src.domain.user.model import User
+from src.models.information import InformationModelMapper
 
 
 class UserModelMapper(models.Model):
@@ -28,6 +29,10 @@ class UserModelMapper(models.Model):
     profile_active = fields.BooleanField(default=False)
     password = fields.CharField(max_length=150, null=True)
     is_admin = fields.BooleanField(default=False)
+
+    information: InformationModelMapper = fields.OneToOneField(
+        "models.Information", related_name="information", null=True
+    )
 
     def cast(self):
         birthdate = self.birthdate.strftime(DATE_FORMAT)
@@ -56,7 +61,7 @@ class UserModelMapper(models.Model):
             password=self.password,
             is_admin=self.is_admin,
         )
-    
+
     @staticmethod
     def to_model_mapper(user: User):
         birthdate = datetime.strptime(user.birthdate, DATE_FORMAT).date()

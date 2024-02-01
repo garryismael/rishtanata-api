@@ -1,6 +1,11 @@
+from dataclasses import dataclass
 from typing import Optional
+from typing_extensions import Annotated
+from fastapi import Form
 
 from pydantic import BaseModel, EmailStr, Field, model_validator
+
+from src.domain.information.model import Information
 
 
 class User(BaseModel):
@@ -26,6 +31,7 @@ class User(BaseModel):
     profile_active: bool
     password: Optional[str] = None
     is_admin: bool
+    information: Optional[Information] = None
 
 
 class UserRegisterRequest(BaseModel):
@@ -59,7 +65,7 @@ class UserResponseDTO(BaseModel):
     profile_active: bool
     password: Optional[str] = None
     is_admin: bool
-
+    information: Optional[Information] = None
 
 class AccountRegistration(BaseModel):
     token: str
@@ -77,3 +83,31 @@ class AccountRegistration(BaseModel):
         ):
             raise ValueError("passwords do not match")
         return self
+
+@dataclass
+class ProfileUpdateRequest():
+    full_name: Annotated[str, Form()]
+    birthdate: Annotated[str, Form()]
+    birth_city: Annotated[Optional[str], Form()] = None
+    birth_country: Annotated[Optional[str], Form()] = None
+    gender: Annotated[str, Form()]
+    address: Annotated[Optional[str], Form()] = None
+    email: Annotated[str, Form()]
+    cell_phone: Annotated[str, Form()]
+    home_phone: Annotated[Optional[str], Form()] = None
+    photo: Annotated[Optional[str], Form()] = None
+    nationality: Annotated[Optional[str], Form()] = None
+    ethnic_group: Annotated[Optional[str], Form()] = None
+    marital_status: Annotated[Optional[str], Form()] = None
+    height: Annotated[int, Form()] = None
+    weight: Annotated[int, Form()] = None
+    complexion: Annotated[Optional[str], Form()] = None
+    occupation: Annotated[Optional[str], Form()] = None
+    is_admin: Annotated[bool, Form()]
+    family_background_note: Annotated[str, Form()]
+    expectation_note: Annotated[str, Form()]
+    wears_coat: Annotated[bool, Form()]
+    wears_hijab: Annotated[bool, Form()]
+    willingness_to_relocate: Annotated[str, Form()]
+    preferred_living_arrangement: Annotated[str, Form()]
+    health_note: Annotated[str, Form()]
