@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from src.constant import DATE_FORMAT
-from src.domain.user.model import UserRegisterRequest
+from src.domain.user.model import User, UserRegisterRequest
 from src.models.user import UserModelMapper
 
 
@@ -21,5 +21,9 @@ class UserRepository:
         )
         return user_db
 
-    async def update(self):
-        pass
+    async def activate(self, user_id: int, hashed_password: str):
+        user_db = await UserModelMapper.get(pk=user_id)
+        user_db.password = hashed_password
+        user_db.verified = True
+        await user_db.save()
+        return user_db.cast()

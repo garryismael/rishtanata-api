@@ -18,8 +18,8 @@ class User(BaseModel):
     nationality: Optional[str] = None
     ethnic_group: Optional[str] = None
     marital_status: Optional[str] = None
-    height: int
-    weight: int
+    height: Optional[int] = None
+    weight: Optional[int] = None
     complexion: Optional[str] = None
     occupation: Optional[str] = None
     verified: bool
@@ -51,8 +51,8 @@ class UserResponseDTO(BaseModel):
     nationality: Optional[str] = None
     ethnic_group: Optional[str] = None
     marital_status: Optional[str] = None
-    height: int
-    weight: int
+    height: Optional[int] = None
+    weight: Optional[int] = None
     complexion: Optional[str] = None
     occupation: Optional[str] = None
     verified: bool

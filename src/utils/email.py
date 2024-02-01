@@ -27,4 +27,4 @@ class MailService:
             template_body=body,
             subtype=MessageType.html,
         )
-        await self.fast_mail.send_message(message, template_name=template_name)
+        # await self.fast_mail.send_message(message, template_name=template_name)

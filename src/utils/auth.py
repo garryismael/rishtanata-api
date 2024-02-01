@@ -22,4 +22,4 @@ class AuthService:
         user = await self.user_repository.get_user_by_email(email)
         if user is None or not self.verify_password(password, user.password):
             return None
-        return UserResponseDTO(user.cast().model_dump())
+        return UserResponseDTO(**user.cast().model_dump())

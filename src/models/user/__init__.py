@@ -1,3 +1,4 @@
+from datetime import datetime
 from tortoise import fields, models
 
 from src.constant import DATE_FORMAT
@@ -54,6 +55,34 @@ class UserModelMapper(models.Model):
             profile_active=self.profile_active,
             password=self.password,
             is_admin=self.is_admin,
+        )
+    
+    @staticmethod
+    def to_model_mapper(user: User):
+        birthdate = datetime.strptime(user.birthdate, DATE_FORMAT).date()
+        return UserModelMapper(
+            id=user.id,
+            full_name=user.full_name,
+            birthdate=birthdate,
+            birth_city=user.birth_city,
+            birth_country=user.birth_country,
+            gender=user.gender,
+            address=user.address,
+            email=user.email,
+            cell_phone=user.cell_phone,
+            home_phone=user.home_phone,
+            photo=user.photo,
+            nationality=user.nationality,
+            ethnic_group=user.ethnic_group,
+            marital_status=user.marital_status,
+            height=user.height,
+            weight=user.weight,
+            complexion=user.complexion,
+            occupation=user.occupation,
+            verified=user.verified,
+            profile_active=user.profile_active,
+            password=user.password,
+            is_admin=user.is_admin,
         )
 
     class Meta:

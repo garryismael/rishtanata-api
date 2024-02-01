@@ -45,6 +45,7 @@ class UserRegisterUseCase:
             body,
             "verification.html",
         )
+        print(jwt)
 
         return UserResponseDTO(**user.model_dump())
 
@@ -61,6 +62,5 @@ class AccountCreationUseCase:
         if user.verified:
             self.exception.bad_request("User Already Verified")
         hashed_password = self.auth_service.get_password_hash(request.password)
-        user.password = hashed_password
-        user.verified = True
-        return UserResponseDTO(**user.model_dump())
+        updated_user = await self.user_repository.activate(user.id, hashed_password)
+        return UserResponseDTO(**updated_user.model_dump())
