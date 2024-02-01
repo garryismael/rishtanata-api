@@ -5,6 +5,7 @@ from src.config.app import AppConfig
 
 
 class UploadService:
+
     def __init__(self, config: AppConfig) -> None:
         self.deta = Deta(config.deta_project_key)
         self.config = config

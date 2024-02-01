@@ -1,11 +1,10 @@
 from dependency_injector import containers, providers
 
 from src.config.app import AppConfig
-from src.domain.account.use_case import AccountCreationUseCase
 from src.domain.auth.use_case import UserLoginUseCase
-from src.domain.user.use_case import UserRegisterUseCase
-from src.models.account.repository import AccountRepository
+from src.domain.user.use_case import AccountCreationUseCase, UserRegisterUseCase
 from src.models.user.repository import UserRepository
+from src.models.user.service import UserService
 from src.utils import ApiException
 from src.utils.auth import AuthService
 from src.utils.email import MailService
@@ -30,23 +29,18 @@ class Container(containers.DeclarativeContainer):
     app_config = providers.Factory(AppConfig)
     # Repository
     user_repository = providers.Factory(UserRepository)
-    account_repository = providers.Factory(
-        AccountRepository, user_repository=user_repository
-    )
-
     # Service
     user_token_service = providers.Factory(
         UserTokenService, user_repository=user_repository
     )
-    auth_service = providers.Factory(
-        AuthService, account_repository=account_repository
-    )
+    auth_service = providers.Factory(AuthService, user_repository=user_repository)
+    user_service = providers.Factory(UserService, user_repository=user_repository)
 
     access_token_factory = providers.Factory(AccessTokenFactory)
     mail_service = providers.Factory(MailService, config=app_config)
     user_register = providers.Factory(
         UserRegisterUseCase,
-        user_repository=user_repository,
+        user_service=user_service,
         access_token_factory=access_token_factory,
         mail_service=mail_service,
     )
@@ -60,7 +54,7 @@ class Container(containers.DeclarativeContainer):
 
     account_creation = providers.Factory(
         AccountCreationUseCase,
-        account_repository=account_repository,
+        user_repository=user_repository,
         user_token_service=user_token_service,
         exception=exception,
         auth_service=auth_service,

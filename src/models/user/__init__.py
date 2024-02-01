@@ -1,41 +1,59 @@
-
 from tortoise import fields, models
 
-from src.constant import DATE_FORMAT, DATE_TIME_FORMAT
-from src.domain.auth.model import UserAccount
+from src.constant import DATE_FORMAT
 from src.domain.user.model import User
 
 
 class UserModelMapper(models.Model):
     id = fields.IntField(pk=True)
     full_name = fields.CharField(max_length=100)
-    gender = fields.CharField(max_length=10)
     birthdate = fields.DateField()
+    birth_city = fields.CharField(max_length=100, null=True)
     birth_country = fields.CharField(max_length=100, null=True)
+    gender = fields.CharField(max_length=10)
+    address = fields.CharField(max_length=50, null=True)
     email = fields.CharField(max_length=100, unique=True)
-    contact = fields.CharField(max_length=20)
+    cell_phone = fields.CharField(max_length=20)
+    home_phone = fields.CharField(max_length=20, null=True)
     photo = fields.CharField(max_length=50, null=True)
-    verified = fields.BooleanField(max_length=50, default=False)
-    created_at = fields.DatetimeField(auto_now_add=True)
-    updated_at = fields.DatetimeField(auto_now=True)
+    nationality = fields.CharField(max_length=50, null=True)
+    ethnic_group = fields.CharField(max_length=50, null=True)
+    marital_status = fields.CharField(max_length=50, null=True)
+    height = fields.IntField(null=True)
+    weight = fields.IntField(null=True)
+    complexion = fields.IntField(null=True)
+    occupation = fields.CharField(max_length=50, null=True)
+    verified = fields.BooleanField(default=False)
+    profile_active = fields.BooleanField(default=False)
+    password = fields.CharField(max_length=150, null=True)
+    is_admin = fields.BooleanField(default=False)
 
     def cast(self):
         birthdate = self.birthdate.strftime(DATE_FORMAT)
-        created_at = self.created_at.strftime(DATE_TIME_FORMAT)
-        updated_at = self.updated_at.strftime(DATE_TIME_FORMAT)
 
         return User(
             id=self.id,
             full_name=self.full_name,
-            gender=self.gender,
             birthdate=birthdate,
+            birth_city=self.birth_city,
             birth_country=self.birth_country,
+            gender=self.gender,
+            address=self.address,
             email=self.email,
-            contact=self.contact,
+            cell_phone=self.cell_phone,
+            home_phone=self.home_phone,
             photo=self.photo,
+            nationality=self.nationality,
+            ethnic_group=self.ethnic_group,
+            marital_status=self.marital_status,
+            height=self.height,
+            weight=self.weight,
+            complexion=self.complexion,
+            occupation=self.occupation,
             verified=self.verified,
-            created_at=created_at,
-            updated_at=updated_at,
+            profile_active=self.profile_active,
+            password=self.password,
+            is_admin=self.is_admin,
         )
 
     class Meta:

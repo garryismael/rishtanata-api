@@ -1,32 +1,25 @@
 from datetime import datetime
 
 from src.constant import DATE_FORMAT
-from src.domain.user.model import User, UserRegisterRequest
+from src.domain.user.model import UserRegisterRequest
 from src.models.user import UserModelMapper
 
 
 class UserRepository:
     async def get_user_by_email(self, email: str):
-        user = await UserModelMapper.get_or_none(email=email).prefetch_related(
-            "account"
-        )
-        if user is not None:
-            return user.cast()
-        return None
+        user = await UserModelMapper.get_or_none(email=email)
+        return user if user is not None else None
 
-    async def set_verification(self, user: User):
-        user_db = await UserModelMapper.get(pk=user.id)
-        user_db.verified = True
-        await user_db.save()
-        return user_db.cast()
-
-    async def register(self, request: UserRegisterRequest) -> User:
-        birthdate = datetime.strptime(request.birthdate, DATE_FORMAT)
+    async def save(self, request: UserRegisterRequest):
+        birthdate = datetime.strptime(request.birthdate, DATE_FORMAT).date()
         user_db = await UserModelMapper.create(
             full_name=request.full_name,
             gender=request.gender,
-            birthdate=birthdate.date(),
+            birthdate=birthdate,
             email=request.email,
-            contact=request.contact,
+            cell_phone=request.cell_phone,
         )
-        return user_db.cast()
+        return user_db
+
+    async def update(self):
+        pass

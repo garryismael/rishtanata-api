@@ -1,15 +1,16 @@
 from dataclasses import dataclass
 
 from passlib.context import CryptContext
+from src.domain.user.model import UserResponseDTO
 
-from src.models.account.repository import AccountRepository
+from src.models.user.repository import UserRepository
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @dataclass
 class AuthService:
-    account_repository: AccountRepository
+    user_repository: UserRepository
 
     def verify_password(self, plain_password: str, hashed_password: str):
         return pwd_context.verify(plain_password, hashed_password)
@@ -18,9 +19,7 @@ class AuthService:
         return pwd_context.hash(password)
 
     async def authenticate_user(self, email: str, password: str):
-        account = await self.account_repository.get_account_by_email(email)
-        if account is None:
+        user = await self.user_repository.get_user_by_email(email)
+        if user is None or not self.verify_password(password, user.password):
             return None
-        if not self.verify_password(password, account.password):
-            return None
-        return account.dto
+        return UserResponseDTO(user.cast().model_dump())

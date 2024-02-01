@@ -4,7 +4,6 @@ from tortoise.contrib.fastapi import register_tortoise
 
 from src.config.app import APP_CONFIG
 from src.config.container import Container
-from src.routers.account import account_router
 from src.routers.auth import auth_router
 from src.routers.user import user_router
 
@@ -23,19 +22,19 @@ def create_app() -> FastAPI:
     )
     api.container = container
     api.include_router(user_router)
-    api.include_router(account_router)
     api.include_router(auth_router)
     return api
 
 
 app = create_app()
 
-
 TORTOISE_ORM = {
-    "connections": {"default": APP_CONFIG.db_url},
+    "connections": {
+        "default": APP_CONFIG.db_url
+    },
     "apps": {
         "models": {
-            "models": ["src.models.user", "src.models.account", "aerich.models"],
+            "models": ["src.models.user", "aerich.models"],
             "default_connection": "default",
         },
     },

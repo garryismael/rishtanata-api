@@ -1,20 +1,31 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, model_validator
 
 
 class User(BaseModel):
     id: int
     full_name: str
-    gender: str
     birthdate: str
-    birth_country: Optional[str] = str
+    birth_city: Optional[str] = None
+    birth_country: Optional[str] = None
+    gender: str
+    address: Optional[str] = None
     email: EmailStr
-    contact: str
-    photo: Optional[str]
+    cell_phone: str
+    home_phone: Optional[str] = None
+    photo: Optional[str] = None
+    nationality: Optional[str] = None
+    ethnic_group: Optional[str] = None
+    marital_status: Optional[str] = None
+    height: int
+    weight: int
+    complexion: Optional[str] = None
+    occupation: Optional[str] = None
     verified: bool
-    created_at: str
-    updated_at: str
+    profile_active: bool
+    password: Optional[str] = None
+    is_admin: bool
 
 
 class UserRegisterRequest(BaseModel):
@@ -22,17 +33,47 @@ class UserRegisterRequest(BaseModel):
     gender: str
     birthdate: str
     email: EmailStr
-    contact: str
+    cell_phone: str
 
 
 class UserResponseDTO(BaseModel):
     id: int
     full_name: str
-    gender: str
     birthdate: str
-    birth_country: Optional[str] = str
+    birth_city: Optional[str] = None
+    birth_country: Optional[str] = None
+    gender: str
+    address: Optional[str] = None
     email: EmailStr
-    contact: str
-    photo: Optional[str]
+    cell_phone: str
+    home_phone: Optional[str] = None
+    photo: Optional[str] = None
+    nationality: Optional[str] = None
+    ethnic_group: Optional[str] = None
+    marital_status: Optional[str] = None
+    height: int
+    weight: int
+    complexion: Optional[str] = None
+    occupation: Optional[str] = None
     verified: bool
-    created_at: str
+    profile_active: bool
+    password: Optional[str] = None
+    is_admin: bool
+
+
+class AccountRegistration(BaseModel):
+    token: str
+    password: str = Field(..., min_length=5)
+    confirm_password: str = Field(..., min_length=5)
+
+    @model_validator(mode="after")
+    def check_passwords_match(self) -> "AccountRegistration":
+        password = self.password
+        confirm_password = self.confirm_password
+        if (
+            password is not None
+            and confirm_password is not None
+            and password != confirm_password
+        ):
+            raise ValueError("passwords do not match")
+        return self
