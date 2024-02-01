@@ -30,10 +30,6 @@ class UserModelMapper(models.Model):
     password = fields.CharField(max_length=150, null=True)
     is_admin = fields.BooleanField(default=False)
 
-    information: InformationModelMapper = fields.OneToOneField(
-        "models.Information", related_name="information", null=True
-    )
-
     def cast(self):
         birthdate = self.birthdate.strftime(DATE_FORMAT)
 

@@ -88,12 +88,20 @@ class AccountRegistration(BaseModel):
 class ProfileUpdateRequest():
     full_name: Annotated[str, Form()]
     birthdate: Annotated[str, Form()]
-    birth_city: Annotated[Optional[str], Form()] = None
-    birth_country: Annotated[Optional[str], Form()] = None
     gender: Annotated[str, Form()]
-    address: Annotated[Optional[str], Form()] = None
     email: Annotated[str, Form()]
     cell_phone: Annotated[str, Form()]
+    health_note: Annotated[str, Form()]
+    family_background_note: Annotated[str, Form()]
+    expectation_note: Annotated[str, Form()]
+    wears_coat: Annotated[bool, Form()]
+    willingness_to_relocate: Annotated[str, Form()]
+    preferred_living_arrangement: Annotated[str, Form()]
+    wears_hijab: Annotated[bool, Form()]
+    is_admin: Annotated[bool, Form()] = False
+    birth_city: Annotated[Optional[str], Form()] = None
+    birth_country: Annotated[Optional[str], Form()] = None
+    address: Annotated[Optional[str], Form()] = None
     home_phone: Annotated[Optional[str], Form()] = None
     photo: Annotated[Optional[str], Form()] = None
     nationality: Annotated[Optional[str], Form()] = None
@@ -103,11 +111,3 @@ class ProfileUpdateRequest():
     weight: Annotated[int, Form()] = None
     complexion: Annotated[Optional[str], Form()] = None
     occupation: Annotated[Optional[str], Form()] = None
-    is_admin: Annotated[bool, Form()]
-    family_background_note: Annotated[str, Form()]
-    expectation_note: Annotated[str, Form()]
-    wears_coat: Annotated[bool, Form()]
-    wears_hijab: Annotated[bool, Form()]
-    willingness_to_relocate: Annotated[str, Form()]
-    preferred_living_arrangement: Annotated[str, Form()]
-    health_note: Annotated[str, Form()]
