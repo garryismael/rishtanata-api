@@ -18,7 +18,7 @@ async def user_register(
     return await use_case.execute(user_request)
 
 
-@user_router("/api/users/activate")
+@user_router.post("/api/users/activate", tags=["users"])
 @inject
 async def activate_account(
     request: AccountRegistration,

@@ -16,7 +16,6 @@ class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
             "src.routers.user",
-            "src.routers.account",
             "src.routers.auth",
             "src.utils.token",
         ]
